@@ -5,11 +5,11 @@
 //  Created by 肖湘 on 2021/10/15.
 //
 
-#import "ParallelChildViewContollerWrapperView.h"
+#import "ParallelChildViewControllerWrapperView.h"
 #import "ParallelShoppingModeViewController.h"
 #import "UIViewController+ParallelViewControllerItem.h"
 
-@implementation ParallelChildViewContollerWrapperView
+@implementation ParallelChildViewControllerWrapperView
 
 -(instancetype)initWithFrame:(CGRect)frame viewController:(UIViewController*)vc{
     self = [super initWithFrame:frame];

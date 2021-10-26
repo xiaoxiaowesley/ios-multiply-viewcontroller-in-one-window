@@ -9,12 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ParallelChildViewContollerWrapperView;
+@class ParallelChildViewControllerWrapperView;
 @protocol ParallelChildViewContollerWrapperViewDelegate <NSObject>
--(void)onClickBack:(ParallelChildViewContollerWrapperView *)wrapperView viewController:(UIViewController *)viewController;
+-(void)onClickBack:(ParallelChildViewControllerWrapperView *)wrapperView viewController:(UIViewController *)viewController;
 @end
 
-@interface ParallelChildViewContollerWrapperView : UIView
+@interface ParallelChildViewControllerWrapperView : UIView
 -(instancetype)initWithFrame:(CGRect)frame viewController:(nonnull UIViewController*)vc;
 -(void)hiddenNavigationBar:(BOOL)hidden;
 @property(nonatomic,readonly,strong)UINavigationBar * navigationBar;

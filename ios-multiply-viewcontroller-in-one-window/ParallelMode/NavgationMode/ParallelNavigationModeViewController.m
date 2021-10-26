@@ -6,7 +6,7 @@
 //
 
 #import "ParallelNavigationModeViewController.h"
-#import "ParallelChildViewContollerWrapperView.h"
+#import "ParallelChildViewControllerWrapperView.h"
 #import "UIViewController+ParallelViewControllerItem.h"
 #import <objc/runtime.h>
 
@@ -69,9 +69,9 @@
     [self addRightView:_rightNavigationController];
 
     // hide the two root viewcontroller's navigation bar
-    ParallelChildViewContollerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
+    ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
     [leftWrapper hiddenNavigationBar:YES];
-    ParallelChildViewContollerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
+    ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
     [rightWrapper hiddenNavigationBar:YES];
     
     _leftNavigationController.isRootViewController = YES;
@@ -89,29 +89,29 @@
         CGRect rightViewFrame = CGRectMake(halfWidth + HingeWidth, 0, size.width/2.0, size.height);
         
         // left-right display split when Portrait
-        ParallelChildViewContollerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
+        ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
         leftWrapper.frame = leftViewFrame;
         
-        ParallelChildViewContollerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
+        ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
         rightWrapper.frame = rightViewFrame;
     }else{
         CGRect frame = CGRectMake(0, 0, size.width, size.height);
-        ParallelChildViewContollerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
+        ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
         leftWrapper.frame = frame;
         
     }
     _lastOrientation = orientation;
 }
 
--(ParallelChildViewContollerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {
-    ParallelChildViewContollerWrapperView * wrapperView = [super appendWrapperViewWithViewController:vc wrapperFrame:wrapperFrame];
+-(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {
+    ParallelChildViewControllerWrapperView * wrapperView = [super appendWrapperViewWithViewController:vc wrapperFrame:wrapperFrame];
     vc.view.frame = [self childViewFrame];
     wrapperView.delegate = self;
     return wrapperView;
 }
 
 #pragma mark  ParallelChildViewContollerWrapperViewDelegate
--(void)onClickBack:(ParallelChildViewContollerWrapperView *)wrapperView viewController:(UIViewController *)viewController{
+-(void)onClickBack:(ParallelChildViewControllerWrapperView *)wrapperView viewController:(UIViewController *)viewController{
     [self popViewControllerAnimated:YES];
 }
 @end

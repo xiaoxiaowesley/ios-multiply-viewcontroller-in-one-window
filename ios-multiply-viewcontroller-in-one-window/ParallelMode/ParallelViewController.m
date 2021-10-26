@@ -56,17 +56,17 @@
     return _internalViewControllers;
 }
 
--(ParallelChildViewContollerWrapperView *)getWrapperViewByViewController:(UIViewController *)vc{
+-(ParallelChildViewControllerWrapperView *)getWrapperViewByViewController:(UIViewController *)vc{
     NSInteger tag = (NSInteger)vc;
-    return (ParallelChildViewContollerWrapperView *)[self.view viewWithTag:tag];
+    return (ParallelChildViewControllerWrapperView *)[self.view viewWithTag:tag];
 }
 
 -(NSInteger)getWrapperViewTagByViewController:(UIViewController *)vc{
     return (NSInteger)vc;
 }
 
--(ParallelChildViewContollerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame{
-    ParallelChildViewContollerWrapperView * wrapperView = [[ParallelChildViewContollerWrapperView alloc]initWithFrame:wrapperFrame viewController:vc];
+-(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame{
+    ParallelChildViewControllerWrapperView * wrapperView = [[ParallelChildViewControllerWrapperView alloc]initWithFrame:wrapperFrame viewController:vc];
     // convert pointer to NSInteger record tag
     wrapperView.tag = [self getWrapperViewTagByViewController:vc];
     [self.view addSubview:wrapperView];

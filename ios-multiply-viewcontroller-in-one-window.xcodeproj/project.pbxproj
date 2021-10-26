@@ -19,7 +19,7 @@
 		1E8FA2172715642F00986E3E /* ios_multiply_viewcontroller_in_one_windowUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8FA2162715642F00986E3E /* ios_multiply_viewcontroller_in_one_windowUITestsLaunchTests.m */; };
 		1ECF43D62717C32100D4127D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF43D42717C32100D4127D /* MainViewController.m */; };
 		1ECF43D72717C32100D4127D /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ECF43D52717C32100D4127D /* MainViewController.xib */; };
-		1ECF44282719576C00D4127D /* ParallelChildViewContollerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF44272719576C00D4127D /* ParallelChildViewContollerWrapperView.m */; };
+		1ECF44282719576C00D4127D /* ParallelChildViewControllerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF44272719576C00D4127D /* ParallelChildViewControllerWrapperView.m */; };
 		1ECF442C271D8E0300D4127D /* ParallelShoppingModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF442B271D8E0300D4127D /* ParallelShoppingModeViewController.m */; };
 		1ECF442F271D8F5100D4127D /* ParallelNavigationModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF442E271D8F5100D4127D /* ParallelNavigationModeViewController.m */; };
 		1ECF4432271D944B00D4127D /* ParallelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF4431271D944B00D4127D /* ParallelViewController.m */; };
@@ -68,8 +68,8 @@
 		1ECF43D32717C32100D4127D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		1ECF43D42717C32100D4127D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		1ECF43D52717C32100D4127D /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-		1ECF44262719576C00D4127D /* ParallelChildViewContollerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallelChildViewContollerWrapperView.h; sourceTree = "<group>"; };
-		1ECF44272719576C00D4127D /* ParallelChildViewContollerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallelChildViewContollerWrapperView.m; sourceTree = "<group>"; };
+		1ECF44262719576C00D4127D /* ParallelChildViewControllerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallelChildViewControllerWrapperView.h; sourceTree = "<group>"; };
+		1ECF44272719576C00D4127D /* ParallelChildViewControllerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallelChildViewControllerWrapperView.m; sourceTree = "<group>"; };
 		1ECF442B271D8E0300D4127D /* ParallelShoppingModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallelShoppingModeViewController.m; sourceTree = "<group>"; };
 		1ECF442D271D8F5100D4127D /* ParallelNavigationModeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParallelNavigationModeViewController.h; sourceTree = "<group>"; };
 		1ECF442E271D8F5100D4127D /* ParallelNavigationModeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParallelNavigationModeViewController.m; sourceTree = "<group>"; };
@@ -189,8 +189,8 @@
 				1ECF4429271D8D8500D4127D /* ShoppingMode */,
 				1EFB4FD827159E4900FD86E8 /* ParallelSceneDelegate.h */,
 				1EFB4FD927159E4900FD86E8 /* ParallelSceneDelegate.m */,
-				1ECF44262719576C00D4127D /* ParallelChildViewContollerWrapperView.h */,
-				1ECF44272719576C00D4127D /* ParallelChildViewContollerWrapperView.m */,
+				1ECF44262719576C00D4127D /* ParallelChildViewControllerWrapperView.h */,
+				1ECF44272719576C00D4127D /* ParallelChildViewControllerWrapperView.m */,
 				1EFB4FD527159D1000FD86E8 /* ParallelViewControllerMode.storyboard */,
 				1ECF4430271D944B00D4127D /* ParallelViewController.h */,
 				1ECF4431271D944B00D4127D /* ParallelViewController.m */,
@@ -365,7 +365,7 @@
 				1E8FA2012715642F00986E3E /* main.m in Sources */,
 				1EFB4FE92716ACAF00FD86E8 /* DemoViewController.m in Sources */,
 				1ECF43D62717C32100D4127D /* MainViewController.m in Sources */,
-				1ECF44282719576C00D4127D /* ParallelChildViewContollerWrapperView.m in Sources */,
+				1ECF44282719576C00D4127D /* ParallelChildViewControllerWrapperView.m in Sources */,
 				1E8FA1F32715642D00986E3E /* SceneDelegate.m in Sources */,
 				1ECF442F271D8F5100D4127D /* ParallelNavigationModeViewController.m in Sources */,
 				1ECF442C271D8E0300D4127D /* ParallelShoppingModeViewController.m in Sources */,

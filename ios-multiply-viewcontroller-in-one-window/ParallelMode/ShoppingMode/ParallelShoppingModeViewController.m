@@ -6,7 +6,7 @@
 //
 
 #import "ParallelShoppingModeViewController.h"
-#import "ParallelChildViewContollerWrapperView.h"
+#import "ParallelChildViewControllerWrapperView.h"
 #import "UIViewController+ParallelViewControllerItem.h"
 #import <objc/runtime.h>
 
@@ -134,10 +134,10 @@
     rightVC.isRootViewController = YES;
 
     // hidden the two root viewcontroller's navigation bar
-    ParallelChildViewContollerWrapperView * leftWrapper = [self getWrapperViewByViewController:leftVC];
+    ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:leftVC];
     [leftWrapper hiddenNavigationBar:YES];
     
-    ParallelChildViewContollerWrapperView * rightWrapper = [self getWrapperViewByViewController:rightVC];
+    ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:rightVC];
     [rightWrapper hiddenNavigationBar:YES];
     
     
@@ -165,7 +165,7 @@
 
     for (int i = 0 ; i<self.viewControllers.count; i++) {
         UIViewController * vc = [self.viewControllers objectAtIndex:i];
-        ParallelChildViewContollerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
+        ParallelChildViewControllerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
         if(i == 1 || i == (self.viewControllers.count-1)){
             wrapper.frame = rightViewFrame;
         }else{
@@ -178,7 +178,7 @@
                toViewController: (UIViewController*) newVC
                        animated:(BOOL) animated{
     
-    ParallelChildViewContollerWrapperView * oldWrapperView = [self getWrapperViewByViewController:oldVC];
+    ParallelChildViewControllerWrapperView * oldWrapperView = [self getWrapperViewByViewController:oldVC];
     NSAssert(oldWrapperView!=nil, @"can not find wrapperview by id");
     
     if (!animated) {
@@ -190,7 +190,7 @@
     }else{
         [self addChildViewController:newVC];
         
-        ParallelChildViewContollerWrapperView * newWrapperView = [self appendWrapperViewWithViewController:newVC wrapperFrame:[self newViewStartFrame]];
+        ParallelChildViewControllerWrapperView * newWrapperView = [self appendWrapperViewWithViewController:newVC wrapperFrame:[self newViewStartFrame]];
 
         oldWrapperView.frame = [self oldViewStartFrame];
         
@@ -217,15 +217,15 @@
     [vc didMoveToParentViewController:self];
 }
 
--(ParallelChildViewContollerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {
-    ParallelChildViewContollerWrapperView * wrapperView = [super appendWrapperViewWithViewController:vc wrapperFrame:wrapperFrame];
+-(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {
+    ParallelChildViewControllerWrapperView * wrapperView = [super appendWrapperViewWithViewController:vc wrapperFrame:wrapperFrame];
     vc.view.frame = [self childViewFrame];
     wrapperView.delegate = self;
     return wrapperView;
 }
 
 #pragma mark  ParallelChildViewContollerWrapperViewDelegate
--(void)onClickBack:(ParallelChildViewContollerWrapperView *)wrapperView viewController:(UIViewController *)viewController{
+-(void)onClickBack:(ParallelChildViewControllerWrapperView *)wrapperView viewController:(UIViewController *)viewController{
     [self popViewControllerAnimated:YES];
 }
 

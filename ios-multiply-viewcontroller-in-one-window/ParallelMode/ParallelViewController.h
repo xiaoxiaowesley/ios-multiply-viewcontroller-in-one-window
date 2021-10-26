@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ParallelChildViewContollerWrapperView.h"
+#import "ParallelChildViewControllerWrapperView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (nullable UIViewController *)popViewControllerAnimated:(BOOL)animated;
 
--(ParallelChildViewContollerWrapperView *)getWrapperViewByViewController:(UIViewController *)vc;
+-(ParallelChildViewControllerWrapperView *)getWrapperViewByViewController:(UIViewController *)vc;
 
--(ParallelChildViewContollerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame;
+-(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame;
 
 -(void)addLeftView:(UIViewController *)vc;
 
