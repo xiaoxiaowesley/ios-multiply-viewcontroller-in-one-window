@@ -33,6 +33,7 @@
     NSLog(@"ParallelViewController frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
     self.view.backgroundColor = [UIColor blackColor];
     [self layoutParallViewControllers];
+    [self updateViewControllers:self.view.frame.size orientation:[UIDevice currentDevice].orientation];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator{
@@ -98,6 +99,9 @@
         CGRect frame = CGRectMake(0, 0, size.width, size.height);
         ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
         leftWrapper.frame = frame;
+        
+        ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
+        rightWrapper.frame = frame;
         
     }
     _lastOrientation = orientation;

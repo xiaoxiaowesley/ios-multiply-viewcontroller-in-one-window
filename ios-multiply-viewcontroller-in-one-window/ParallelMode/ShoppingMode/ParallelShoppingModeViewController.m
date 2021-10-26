@@ -37,36 +37,6 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-//-(void)viewWillLayoutSubviews{
-//    [super viewWillLayoutSubviews];
-//
-//}
-//-(void)viewDidLayoutSubviews{
-//    [super viewDidLayoutSubviews];
-//
-//}
-//
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//}
-//
-//-(void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//}
-//
-//-(void)viewDidDisappear:(BOOL)animated{
-//    [super viewDidDisappear:animated];
-//}
-//
-//-(void)updateViewConstraints{
-//    [super updateViewConstraints];
-//}
-
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
