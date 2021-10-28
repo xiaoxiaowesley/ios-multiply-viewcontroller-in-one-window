@@ -15,6 +15,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"MainViewController frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
+    
+    NSInteger aRedValue = arc4random()%255;
+    NSInteger aGreenValue = arc4random()%255;
+    NSInteger aBlueValue = arc4random()%255;
+
+    UIColor * color = [UIColor colorWithRed:aRedValue/255.0f green:aGreenValue/255.0f blue:aBlueValue/255.0f alpha:1.0f];
+    self.view.backgroundColor = color;
     // Do any additional setup after loading the view from its nib.
 }
 

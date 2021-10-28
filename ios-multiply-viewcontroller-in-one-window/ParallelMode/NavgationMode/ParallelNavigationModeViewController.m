@@ -12,15 +12,11 @@
 
 #define HingeWidth 5
 
-@interface ParallelNavigationModeViewController ()<ParallelChildViewContollerWrapperViewDelegate>{
-    UINavigationController *_leftNavigationController;
-    UINavigationController *_rightNavigationController;
-    UIDeviceOrientation _lastOrientation;
-}
+
+@interface ParallelNavigationModeViewController ()<ParallelChildViewContollerWrapperViewDelegate>
 @end
 
 @implementation ParallelNavigationModeViewController
-
 
 #pragma mark -Override ViewController Methods
 
@@ -30,15 +26,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"ParallelViewController frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
-    self.view.backgroundColor = [UIColor blackColor];
     [self layoutParallViewControllers];
-    [self updateViewControllers:self.view.frame.size orientation:[UIDevice currentDevice].orientation];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator{
-    NSLog(@"viewWillTransitionToSize ,width:%f,height:%f",size.width,size.height);
-    [self updateViewControllers:size orientation:[UIDevice currentDevice].orientation];
+    [self updateViewControllers:size];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
@@ -49,12 +41,48 @@
 #pragma mark - Override Super Methods (NavigationController-liked Methods)
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [_rightNavigationController pushViewController:viewController animated:animated];
+    // Run animation if
+    UIViewController * oldRight = self.viewControllers.lastObject;
+    //Show push animation
+    [self cycleFromViewController:oldRight toViewController:viewController animated:YES];
     [super pushViewController:viewController animated:animated];
 }
 
 - (nullable UIViewController *)popViewControllerAnimated:(BOOL)animated{
-   return [_rightNavigationController popViewControllerAnimated:animated];
+    if (self.viewControllers.count>2) {
+        
+        UIViewController * secondToLastViewController = [self.viewControllers objectAtIndex:self.viewControllers.count-2];
+        UIViewController * lastViewController  = [self.viewControllers objectAtIndex:self.viewControllers.count-1];
+
+        UIView * secondToLastWrapper = [super getWrapperViewByViewController:secondToLastViewController];
+        UIView * lastWrapper = [super getWrapperViewByViewController:lastViewController];
+
+        [lastViewController willMoveToParentViewController:nil];
+        if (animated) {
+            
+            [UIView animateWithDuration:0.25
+                              animations:^{
+                                lastWrapper.frame = [self newViewStartFrame];
+                                secondToLastWrapper.frame = [self rightViewFrame];
+                                }
+                             completion:^(BOOL finished) {
+                                [lastWrapper removeFromSuperview];
+                                [lastViewController removeFromParentViewController];
+            }];
+        }else{
+            // WrapperView removeFromSuperView,ViewController remove from ParentView
+            [lastWrapper removeFromSuperview];
+            [lastViewController removeFromParentViewController];
+            //Move to right side because Second to last ViewController become the last ViewController
+            secondToLastWrapper.frame = [self rightViewFrame];
+        }
+      
+        [super popViewControllerAnimated:animated];
+        return lastViewController;
+    }else{
+        NSLog(@"can not pop");
+        return nil;
+    }
 }
 
 #pragma mark - Private Methods
@@ -63,48 +91,92 @@
     NSAssert(self.viewControllers.count>=2, @"self.viewControllers count can't less than 2");
     
     //Two front two viewcontrollers fixed on the left and right side
-    _leftNavigationController = [[UINavigationController alloc]initWithRootViewController:[self.viewControllers objectAtIndex:0]];
-    [self addLeftView:_leftNavigationController];
+    UIViewController * leftVC = [self.viewControllers objectAtIndex:0];
+    [self addLeftView:leftVC];
     
-    _rightNavigationController = [[UINavigationController alloc]initWithRootViewController:[self.viewControllers objectAtIndex:1]];
-    [self addRightView:_rightNavigationController];
+    UIViewController * rightVC = [self.viewControllers objectAtIndex:1];
+    [self addRightView:rightVC];
+    
+    leftVC.isRootViewController = YES;
+    rightVC.isRootViewController = YES;
 
-    // hide the two root viewcontroller's navigation bar
-    ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
+    // hidden the two root viewcontroller's navigation bar
+    ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:leftVC];
     [leftWrapper hiddenNavigationBar:YES];
-    ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
+    
+    ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:rightVC];
     [rightWrapper hiddenNavigationBar:YES];
     
-    _leftNavigationController.isRootViewController = YES;
-    _rightNavigationController.isRootViewController = YES;
-    
-    _lastOrientation = [UIDevice currentDevice].orientation;
+    if (self.viewControllers.count > 2) {
+        // Except for the first two viewcontrollers and the last one, the rest are placed to the left
+        if (self.viewControllers.count>3) {
+            for (int i = 2; i<self.viewControllers.count-1; i++) {
+                UIViewController * leftVC = [self.viewControllers objectAtIndex:i];
+                [self addLeftView:leftVC];
+            }
+        }
+        //Top viewcontroller on the stack always place to the right
+        UIViewController * rightVC = [self.viewControllers objectAtIndex:self.viewControllers.count-1];
+        [self addRightView:rightVC];
+    }
 }
 
--(void)updateViewControllers:(CGSize)size orientation:(UIDeviceOrientation)orientation{
+-(void)updateViewControllers:(CGSize)size{
     NSAssert(self.viewControllers.count>=2, @"self.viewControllers count can't less than 2");
     
-    if (UIDeviceOrientationIsLandscape(orientation)) {
-        CGFloat halfWidth = (size.width - HingeWidth)/2.0;
-        CGRect leftViewFrame = CGRectMake(0, 0, halfWidth, size.height);
-        CGRect rightViewFrame = CGRectMake(halfWidth + HingeWidth, 0, size.width/2.0, size.height);
-        
-        // left-right display split when Portrait
-        ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
-        leftWrapper.frame = leftViewFrame;
-        
-        ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
-        rightWrapper.frame = rightViewFrame;
-    }else{
-        CGRect frame = CGRectMake(0, 0, size.width, size.height);
-        ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:_leftNavigationController];
-        leftWrapper.frame = frame;
-        
-        ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:_rightNavigationController];
-        rightWrapper.frame = frame;
-        
+    CGFloat halfWidth = (size.width - HingeWidth)/2.0;
+    CGRect leftViewFrame = CGRectMake(0, 0, halfWidth, size.height);
+    CGRect rightViewFrame = CGRectMake(halfWidth + HingeWidth, 0, size.width/2.0, size.height);
+
+    for (int i = 0 ; i<self.viewControllers.count; i++) {
+        UIViewController * vc = [self.viewControllers objectAtIndex:i];
+        ParallelChildViewControllerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
+        if(i == 1 || i == (self.viewControllers.count-1)){
+            wrapper.frame = rightViewFrame;
+        }else{
+            wrapper.frame = leftViewFrame;
+        }
     }
-    _lastOrientation = orientation;
+}
+
+- (void)cycleFromViewController: (UIViewController*) oldVC
+               toViewController: (UIViewController*) newVC
+                       animated:(BOOL) animated{
+    ParallelChildViewControllerWrapperView * oldWrapperView = [self getWrapperViewByViewController:oldVC];
+    NSAssert(oldWrapperView!=nil, @"can not find wrapperview by id");
+    if (!animated) {
+        [self addNewView:newVC];
+    }else{
+        [self addChildViewController:newVC];
+        
+        ParallelChildViewControllerWrapperView * newWrapperView = [self appendWrapperViewWithViewController:newVC wrapperFrame:[self newViewStartFrame]];
+        
+        [UIView animateWithDuration:0.25
+                          animations:^{
+                            newWrapperView.frame = [self newViewEndFrame];;
+                            }
+                         completion:^(BOOL finished) {
+                            [newVC didMoveToParentViewController:self];
+         }];
+    }
+}
+
+-(void)addLeftView:(UIViewController *)vc{
+    [self addChildViewController:vc];
+    [self appendWrapperViewWithViewController:vc wrapperFrame:[self leftViewFrame]];
+    [vc didMoveToParentViewController:self];
+}
+
+-(void)addRightView:(UIViewController *)vc{
+    [self addChildViewController:vc];
+    [self appendWrapperViewWithViewController:vc wrapperFrame:[self rightViewFrame]];
+    [vc didMoveToParentViewController:self];
+}
+
+-(void)addNewView:(UIViewController *)vc{
+    [self addChildViewController:vc];
+    [self appendWrapperViewWithViewController:vc wrapperFrame:[self rightViewFrame]];
+    [vc didMoveToParentViewController:self];
 }
 
 -(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {
@@ -118,4 +190,5 @@
 -(void)onClickBack:(ParallelChildViewControllerWrapperView *)wrapperView viewController:(UIViewController *)viewController{
     [self popViewControllerAnimated:YES];
 }
+
 @end

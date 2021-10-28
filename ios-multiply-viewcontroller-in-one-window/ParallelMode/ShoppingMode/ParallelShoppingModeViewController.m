@@ -26,9 +26,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"ParallelViewController frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
-    self.view.backgroundColor = [UIColor blackColor];
-
     [self layoutParallViewControllers];
 }
 
@@ -110,7 +107,6 @@
     ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:rightVC];
     [rightWrapper hiddenNavigationBar:YES];
     
-    
     if (self.viewControllers.count > 2) {
         // Except for the first two viewcontrollers and the last one, the rest are placed to the left
         if (self.viewControllers.count>3) {
@@ -123,7 +119,6 @@
         UIViewController * rightVC = [self.viewControllers objectAtIndex:self.viewControllers.count-1];
         [self addRightView:rightVC];
     }
-    
 }
 
 -(void)updateViewControllers:(CGSize)size{

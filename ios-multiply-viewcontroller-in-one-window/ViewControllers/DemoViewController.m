@@ -30,7 +30,7 @@
     self.view.backgroundColor = color;
     self.content.backgroundColor = color;
     
-    NSLog(@"frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
+    NSLog(@"DemoViewController frame x:%f,y:%f,width:%f,height:%f",self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height);
     
     self.parallelNavigationItem.title = @"DemoViewController";
 }

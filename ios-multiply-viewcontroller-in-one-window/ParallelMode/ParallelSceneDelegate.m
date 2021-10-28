@@ -19,18 +19,10 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     
-    // shopping mode
-//    MainViewController * left = [[MainViewController alloc]initWithNibName:@"MainViewController" bundle:[NSBundle mainBundle]];
-//    DemoViewController * right = [[DemoViewController alloc]initWithNibName:@"DemoViewController" bundle:[NSBundle mainBundle]];
-//
-//    ParallelShoppingModeViewController * containerController = [[ParallelShoppingModeViewController alloc]initWithLeftViewController:left rightViewController:right];
-//    _window = [[UIWindow alloc]initWithWindowScene:(UIWindowScene *)scene];
-//    _window.rootViewController = containerController;
-//    [_window makeKeyAndVisible];
-    
     // navigation mode
     MainViewController * left = [[MainViewController alloc]initWithNibName:@"MainViewController" bundle:[NSBundle mainBundle]];
     DemoViewController * right = [[DemoViewController alloc]initWithNibName:@"DemoViewController" bundle:[NSBundle mainBundle]];
+//    MainViewController * right = [[MainViewController alloc]initWithNibName:@"MainViewController" bundle:[NSBundle mainBundle]];
     ParallelNavigationModeViewController * containerController = [[ParallelNavigationModeViewController alloc]initWithLeftViewController:left rightViewController:right];
     _window = [[UIWindow alloc]initWithWindowScene:(UIWindowScene *)scene];
     _window.rootViewController = containerController;

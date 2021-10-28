@@ -66,7 +66,12 @@
 }
 
 -(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame{
-    ParallelChildViewControllerWrapperView * wrapperView = [[ParallelChildViewControllerWrapperView alloc]initWithFrame:wrapperFrame viewController:vc];
+    ParallelChildViewControllerWrapperView * wrapperView  = [self getWrapperViewByViewController:vc];
+    if (wrapperView == nil) {
+        wrapperView = [[ParallelChildViewControllerWrapperView alloc]initWithFrame:wrapperFrame viewController:vc];
+    }else{
+        NSLog(@"reuse wrapperView of %p",vc);
+    }
     // convert pointer to NSInteger record tag
     wrapperView.tag = [self getWrapperViewTagByViewController:vc];
     [self.view addSubview:wrapperView];
@@ -119,4 +124,5 @@
     [self appendWrapperViewWithViewController:vc wrapperFrame:[self rightViewFrame]];
     [vc didMoveToParentViewController:self];
 }
+
 @end
