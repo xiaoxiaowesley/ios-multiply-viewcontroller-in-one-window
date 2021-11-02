@@ -22,8 +22,8 @@
 #pragma mark - Override View Methods
 -(void)layoutSubviews{
     if (![_viewController isRootViewController]) {        
-        UINavigationBar * naviBar = [self getNavigationBar:_viewController];
-        [self addSubview:naviBar];
+//        UINavigationBar * naviBar = [self getNavigationBar:_viewController];
+//        [self addSubview:naviBar];
         [super layoutSubviews];
     }
 }

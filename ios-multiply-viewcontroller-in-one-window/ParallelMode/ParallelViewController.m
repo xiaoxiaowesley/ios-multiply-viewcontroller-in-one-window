@@ -81,6 +81,10 @@
 
 #pragma mark - Helper Methods
 
+-(CGFloat)hingeWidth{
+    return HingeWidth;
+}
+
 -(CGFloat)halfWidth{
     return (self.view.bounds.size.width - HingeWidth)/2.0;
 }
@@ -124,5 +128,18 @@
     [self appendWrapperViewWithViewController:vc wrapperFrame:[self rightViewFrame]];
     [vc didMoveToParentViewController:self];
 }
+
+-(CGRect)fullScreenModeFrame{
+    return self.view.bounds;
+}
+
+-(CGRect)splitModeRightFrame{
+    return [self rightViewFrame];
+}
+
+-(CGRect)splitModeLeftFrame{
+    return [self leftViewFrame];
+}
+
 
 @end

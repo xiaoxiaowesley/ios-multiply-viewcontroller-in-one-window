@@ -26,11 +26,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self layoutParallViewControllers];
+    [self layoutViewControllers];
+    [self updateViewControllers:self.view.bounds.size orientation:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator{
-    [self updateViewControllers:size];
+    [self updateViewControllers:size orientation:[[UIApplication sharedApplication] statusBarOrientation]];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
@@ -87,54 +88,54 @@
 
 #pragma mark - Private Methods
 
--(void)layoutParallViewControllers{
+-(void)layoutViewControllers{
     NSAssert(self.viewControllers.count>=2, @"self.viewControllers count can't less than 2");
-    
     //Two front two viewcontrollers fixed on the left and right side
-    UIViewController * leftVC = [self.viewControllers objectAtIndex:0];
-    [self addLeftView:leftVC];
+    UIViewController * bottomVC = [self.viewControllers objectAtIndex:0];
+    [self addLeftView:bottomVC];
     
-    UIViewController * rightVC = [self.viewControllers objectAtIndex:1];
-    [self addRightView:rightVC];
+    UIViewController * nextToBottomVC = [self.viewControllers objectAtIndex:1];
+    [self addRightView:nextToBottomVC];
     
-    leftVC.isRootViewController = YES;
-    rightVC.isRootViewController = YES;
+    bottomVC.isRootViewController = YES;
+    nextToBottomVC.isRootViewController = YES;
 
     // hidden the two root viewcontroller's navigation bar
-    ParallelChildViewControllerWrapperView * leftWrapper = [self getWrapperViewByViewController:leftVC];
-    [leftWrapper hiddenNavigationBar:YES];
+    ParallelChildViewControllerWrapperView * bottomWrapper = [self getWrapperViewByViewController:bottomVC];
+    [bottomWrapper hiddenNavigationBar:YES];
     
-    ParallelChildViewControllerWrapperView * rightWrapper = [self getWrapperViewByViewController:rightVC];
-    [rightWrapper hiddenNavigationBar:YES];
-    
-    if (self.viewControllers.count > 2) {
-        // Except for the first two viewcontrollers and the last one, the rest are placed to the left
-        if (self.viewControllers.count>3) {
-            for (int i = 2; i<self.viewControllers.count-1; i++) {
-                UIViewController * leftVC = [self.viewControllers objectAtIndex:i];
-                [self addLeftView:leftVC];
-            }
-        }
-        //Top viewcontroller on the stack always place to the right
-        UIViewController * rightVC = [self.viewControllers objectAtIndex:self.viewControllers.count-1];
-        [self addRightView:rightVC];
-    }
+    ParallelChildViewControllerWrapperView * nextToBottomWrapper = [self getWrapperViewByViewController:nextToBottomVC];
+    [nextToBottomWrapper hiddenNavigationBar:YES];
 }
 
--(void)updateViewControllers:(CGSize)size{
+-(void)updateViewControllers:(CGSize)size orientation:(UIInterfaceOrientation)orientation{
     NSAssert(self.viewControllers.count>=2, @"self.viewControllers count can't less than 2");
     
     CGFloat halfWidth = (size.width - HingeWidth)/2.0;
     CGRect leftViewFrame = CGRectMake(0, 0, halfWidth, size.height);
     CGRect rightViewFrame = CGRectMake(halfWidth + HingeWidth, 0, size.width/2.0, size.height);
 
-    for (int i = 0 ; i<self.viewControllers.count; i++) {
-        UIViewController * vc = [self.viewControllers objectAtIndex:i];
-        ParallelChildViewControllerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
-        if(i == 1 || i == (self.viewControllers.count-1)){
-            wrapper.frame = rightViewFrame;
-        }else{
-            wrapper.frame = leftViewFrame;
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        for (int i = 0 ; i<self.viewControllers.count; i++) {
+            UIViewController * vc = [self.viewControllers objectAtIndex:i];
+            ParallelChildViewControllerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
+            if(i == 1){
+                wrapper.frame = CGRectMake(size.width, size.height, size.width, size.height);
+            }else{
+                wrapper.frame = CGRectMake(0, 0, size.width, size.height);
+                [self.view bringSubviewToFront:wrapper];
+            }
+        }
+    }else if (UIInterfaceOrientationIsLandscape(orientation)){
+        for (int i = 0 ; i<self.viewControllers.count; i++) {
+            UIViewController * vc = [self.viewControllers objectAtIndex:i];
+            ParallelChildViewControllerWrapperView *wrapper = [self getWrapperViewByViewController:vc];
+            if(i == 0){
+                wrapper.frame = leftViewFrame;
+            }else{
+                wrapper.frame = rightViewFrame;
+            }
+            [self.view bringSubviewToFront:wrapper];
         }
     }
 }
@@ -149,11 +150,12 @@
     }else{
         [self addChildViewController:newVC];
         
-        ParallelChildViewControllerWrapperView * newWrapperView = [self appendWrapperViewWithViewController:newVC wrapperFrame:[self newViewStartFrame]];
+        ParallelChildViewControllerWrapperView * newWrapperView = [self appendWrapperViewWithViewController:newVC
+                                                                                               wrapperFrame:[self newViewControllerBeginFrame]];
         
         [UIView animateWithDuration:0.25
                           animations:^{
-                            newWrapperView.frame = [self newViewEndFrame];;
+                            newWrapperView.frame = [self newViewControllerEndFrame];;
                             }
                          completion:^(BOOL finished) {
                             [newVC didMoveToParentViewController:self];
@@ -177,6 +179,27 @@
     [self addChildViewController:vc];
     [self appendWrapperViewWithViewController:vc wrapperFrame:[self rightViewFrame]];
     [vc didMoveToParentViewController:self];
+}
+
+-(CGRect)newViewControllerBeginFrame{
+    if (UIInterfaceOrientationIsPortrait([self currentOrientation])) {
+        CGRect rect = [super fullScreenModeFrame];
+        return CGRectMake(rect.size.width, rect.size.height,rect.size.width, rect.size.height);
+    }else{
+        return [super newViewStartFrame];
+    }
+}
+
+-(CGRect)newViewControllerEndFrame{
+    if (UIInterfaceOrientationIsPortrait([self currentOrientation])) {
+        return [super fullScreenModeFrame];
+    }else{
+        return [super splitModeRightFrame];
+    }
+}
+
+-(UIInterfaceOrientation)currentOrientation{
+    return [[UIApplication sharedApplication] statusBarOrientation];
 }
 
 -(ParallelChildViewControllerWrapperView *)appendWrapperViewWithViewController:(UIViewController *)vc wrapperFrame:(CGRect) wrapperFrame {

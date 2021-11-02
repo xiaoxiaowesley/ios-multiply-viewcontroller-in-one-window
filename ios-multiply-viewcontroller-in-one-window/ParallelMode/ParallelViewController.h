@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)addRightView:(UIViewController *)vc;
 
+-(CGFloat)hingeWidth;
+
 -(CGFloat)halfWidth;
 
 -(CGRect)childViewFrame;
@@ -41,6 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 -(CGRect)oldViewEndFrame;
 
 -(CGRect)oldViewStartFrame;
+
+-(CGRect)fullScreenModeFrame;
+
+-(CGRect)splitModeRightFrame;
+
+-(CGRect)splitModeLeftFrame;
 @end
 
 NS_ASSUME_NONNULL_END
